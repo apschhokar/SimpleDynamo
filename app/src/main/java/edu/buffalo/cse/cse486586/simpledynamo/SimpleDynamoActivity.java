@@ -24,23 +24,17 @@ public class SimpleDynamoActivity extends Activity {
 		TextView tv = (TextView) findViewById(R.id.textView1);
                 tv.setMovementMethod(new ScrollingMovementMethod());
 
-
-
 		final Button Ldump = (Button) findViewById(R.id.extract);
 		Ldump.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Log.e(TAG, "send toh click hua Ldump ");
-
+				Log.e(TAG, "send was clicked");
 				ContentResolver mContentResolver = getContentResolver();
 				Uri mUri = buildUri("content", "edu.buffalo.cse.cse486586.simpledynamo.provider");
-
 				Cursor resultCursor = mContentResolver.query(mUri, null,
 						"@", null, null);
 				Log.e("Cursor ", DatabaseUtils.dumpCursorToString(resultCursor));
-
 			}
 		});
-
 	}
 
 	@Override
@@ -55,13 +49,10 @@ public class SimpleDynamoActivity extends Activity {
 	    Log.v("Test", "onStop()");
 	}
 
-
 	private Uri buildUri(String scheme, String authority) {
 		Uri.Builder uriBuilder = new Uri.Builder();
 		uriBuilder.authority(authority);
 		uriBuilder.scheme(scheme);
 		return uriBuilder.build();
 	}
-
-
 }
