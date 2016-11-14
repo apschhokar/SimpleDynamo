@@ -67,29 +67,22 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 
         SimpleDynamoProvider simple1 = new SimpleDynamoProvider();
 
-
             while (true) {
-
                 try {
                     Socket server = serverSocket.accept();
-
                     ObjectInputStream readData = new ObjectInputStream(server.getInputStream());
-
                     try {
                         dataReceived = (String[]) readData.readObject();
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d(TAG, e.toString());
                     }
-
-
-
+                    
+                   // wait
                     while (!simple1.isInitialized){
-
                     }
 
                     Log.e("received on server side", "----------------------------->>>>>>>>>>> " + dataReceived[0]);
-
 
                     if (dataReceived[0].equals("InsertMin")) {
                         Log.e(TAG, "----------------->>>>> Inserted Minimum" + dataReceived[1]);
@@ -110,20 +103,16 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
                         simple.insertInThisNode(dataReceived[1], dataReceived[2]);
                     }
 
-
                     if (dataReceived[0].equals("*")) {
                         SimpleDynamoProvider simple = new SimpleDynamoProvider();
                         ContentResolver mContentResolver = simple.globalContext.getContentResolver();
                         Uri mUri = buildUri("content", "edu.buffalo.cse.cse486586.simpledynamo.provider");
 
                         HashMap<String, String> sendBack = new HashMap<String, String>();
-
                         Log.e(TAG, "Query -------> Everything * ----------->>>>");
-
                         Cursor resultCursor = mContentResolver.query(mUri, null,
                                 "@", null, null);
                         Log.e(TAG, "Query ------->just before  Everything * ----------->>>>");
-
                         resultCursor.moveToFirst();
 
                         while (!resultCursor.isAfterLast()) {
@@ -139,7 +128,6 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 
                         ObjectOutputStream sendData = new ObjectOutputStream(server.getOutputStream());
                         sendData.writeObject(sendBack);
-
                         //  publishProgress(dataReceived);
                     }
 
@@ -147,9 +135,7 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
                         SimpleDynamoProvider simple = new SimpleDynamoProvider();
                         ContentResolver mContentResolver = simple.globalContext.getContentResolver();
                         Uri mUri = buildUri("content", "edu.buffalo.cse.cse486586.simpledynamo.provider");
-
                         HashMap<String, String> sendBack = new HashMap<String, String>();
-
                         Log.e(TAG, "Query -------> Everything * ----------->>>>");
 
                         Cursor resultCursor = mContentResolver.query(mUri, null,
@@ -168,10 +154,8 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
                         }
 
                         Log.e(TAG, "Query ------->After  Everything * ----------->>>>");
-
                         ObjectOutputStream sendData = new ObjectOutputStream(server.getOutputStream());
                         sendData.writeObject(sendBack);
-
                         //  publishProgress(dataReceived);
                     }
 
@@ -185,20 +169,15 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
                         Log.e(TAG, "Query -------> Got in server ----------->>>>" + simple.MyPort);
                         Log.e(TAG, "Query -------> recived key" + dataReceived[1]);
 
-
                         Cursor resultCursor = simple.returnFromThisNode(dataReceived[1]);
                         String Send = "";
-
                         if (resultCursor.moveToFirst()) // data?
                             Send = resultCursor.getString(resultCursor.getColumnIndex("Value"));
 
                         resultCursor.close();
 
                         Log.e("DataRetreived", " In server cursor Retreived is this ----------->>>>" + Send);
-
-
                         String[] toSend = {Send};
-
                         ObjectOutputStream sendData = new ObjectOutputStream(server.getOutputStream());
                         sendData.writeObject(toSend);
                     }
@@ -206,8 +185,6 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 
                     if (dataReceived[0].equals("deleteAll")) {
                         //SimpleDhtProvider simple = new SimpleDhtProvider();
-
-
                     }
 
                     if (dataReceived[0].equals("delete")) {
@@ -217,9 +194,7 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 //
 //                        simple.delete(mUri , dataReceived[1] , null);
                          simple.deleteHere(dataReceived[1]);
-
                     }
-
 
                     if (!server.isClosed()) {
                         server.close();
@@ -231,8 +206,8 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
                 } catch (IOException e) {
                     Log.e(TAG, "ServerTask socket IOException");
                 }
-            }
-        }
+          }
+    }
 
 
 
@@ -249,29 +224,22 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
              */
 
         Log.e(TAG, "Got in server: " + strings[1] +"  " + strings[2]);
-
-
+        
         ContentValues values = new ContentValues();
         values.put("key"  ,strings[1]);
         values.put("value" , strings[2]);
-
 
         Uri.Builder uriBuilder = new Uri.Builder();
         uriBuilder.authority("edu.buffalo.cse.cse486586.simpledht.provider");
         uriBuilder.scheme("content");
 
         Uri uri = uriBuilder.build();
-
-
         try {
-
             SimpleDynamoProvider simple =  new SimpleDynamoProvider();
             simple.insert(uri , values);
-
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-
         return;
     }
 
