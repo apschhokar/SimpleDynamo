@@ -52,7 +52,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
-
+// this is basically the server thread which takes in the queries from other clients
 public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
 
     static String TAG = ServerTask.class.getSimpleName();
