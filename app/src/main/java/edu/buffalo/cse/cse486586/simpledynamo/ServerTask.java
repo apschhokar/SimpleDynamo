@@ -57,8 +57,7 @@ public class ServerTask extends AsyncTask<ServerSocket, String, Void> {
     static String TAG = ServerTask.class.getSimpleName();
     static String[] dataReceived;
     static Integer totalCount = 0;
-
-
+    
     @Override
     protected Void doInBackground(ServerSocket... sockets) {
         ServerSocket serverSocket = sockets[0];
