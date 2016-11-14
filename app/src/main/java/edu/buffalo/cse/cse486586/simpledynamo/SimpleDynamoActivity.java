@@ -22,7 +22,7 @@ public class SimpleDynamoActivity extends Activity {
 		setContentView(R.layout.activity_simple_dynamo);
     
 		TextView tv = (TextView) findViewById(R.id.textView1);
-        tv.setMovementMethod(new ScrollingMovementMethod());
+                tv.setMovementMethod(new ScrollingMovementMethod());
 
 
 
